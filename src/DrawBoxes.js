@@ -10,12 +10,13 @@ const initialState = {
 const DrawBoxes = ({children, enabled}) => {
     /* 
     TODO: 
-    - Delete the box
+    - Add Labels
     */
     const [coordinates, setCoordinates] = useState(null);
     const [boxes, setBoxes] = useState([]);
     const [showPreview, setShowPreview] = useState(false);
     const [previewCoordinates, setPreviewCoordinates] = useState(initialState);
+    const [disableDraw, setDisableDraw] = useState(false);
 
     const handleDraw = (e) => {
         const { startX, startY } = coordinates || {};
@@ -62,6 +63,12 @@ const DrawBoxes = ({children, enabled}) => {
         return <div style={boxStyle}></div>
     };
 
+    const deleteBox = (e) => {
+        const index = parseInt(e.target.dataset.id);
+        setBoxes((prev) => prev.filter((c, j) => j !== index));
+        setDisableDraw(false);
+    }
+
     const displayBox = () => {
         return boxes.map((b, i) => {
             const { startX, startY, endX, endY } = b || {};
@@ -72,14 +79,28 @@ const DrawBoxes = ({children, enabled}) => {
                 border: "1px solid red",
                 left: `${startX}px`,
                 top: `${startY}px`,
+                display: "flex",
+                alignItems: "end",
+                justifyContent: "right",
             };
-            return <div style={boxStyle} key={i}></div>
+            return (
+                <div style={boxStyle} key={i}>
+                    <div>
+                        <button 
+                            onClick={deleteBox} 
+                            onMouseEnter={() => setDisableDraw(true)} 
+                            onMouseLeave={() => setDisableDraw(false)}
+                            data-id={i}
+                        >X</button>
+                    </div>
+                </div>
+            )
         });
     };
 
     if (enabled) {
         return (
-            <div style={{height: "100%", width: "100%"}} onClick={handleDraw} onMouseMove={ setShowPreview ? handleOnMouseEvent : null}>
+            <div style={{height: "100%", width: "100%"}} onClick={disableDraw ? null : handleDraw} onMouseMove={ setShowPreview ? handleOnMouseEvent : null}>
                 {boxes.length && displayBox()}
                 {/* Draw Children */}
                 <div className="container full">
