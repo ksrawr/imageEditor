@@ -9,7 +9,10 @@ const initialState = {
 
 const DrawBoxes = ({children, enabled}) => {
     /* 
-    TODO: 
+    TODO:
+    - exit drawing mode via escape key
+    - Move boxes
+    - Resize boxes
     - Add Labels
     */
     const [coordinates, setCoordinates] = useState(null);
@@ -17,6 +20,7 @@ const DrawBoxes = ({children, enabled}) => {
     const [showPreview, setShowPreview] = useState(false);
     const [previewCoordinates, setPreviewCoordinates] = useState(initialState);
     const [disableDraw, setDisableDraw] = useState(false);
+    const [repositionBox, setRepositonBox] = useState(false);
 
     const handleDraw = (e) => {
         const { startX, startY } = coordinates || {};
@@ -67,7 +71,14 @@ const DrawBoxes = ({children, enabled}) => {
         const index = parseInt(e.target.dataset.id);
         setBoxes((prev) => prev.filter((c, j) => j !== index));
         setDisableDraw(false);
-    }
+    };
+
+    const handleRepositionBox = (e) => {
+        const index = parseInt(e.target.dataset.id);
+        setBoxes((prev) => prev.filter((c, j) => j !== index));
+        setDisableDraw(true);
+        setRepositonBox(true);
+    };
 
     const displayBox = () => {
         return boxes.map((b, i) => {
@@ -84,7 +95,14 @@ const DrawBoxes = ({children, enabled}) => {
                 justifyContent: "right",
             };
             return (
-                <div style={boxStyle} key={i}>
+                <div 
+                    style={boxStyle} 
+                    key={i} 
+                    onMouseEnter={() => setDisableDraw(true)} 
+                    onMouseLeave={() => setDisableDraw(false)}
+                    onClick={handleRepositionBox}
+                    data-id={i}
+                >
                     <div>
                         <button 
                             onClick={deleteBox} 
@@ -98,24 +116,22 @@ const DrawBoxes = ({children, enabled}) => {
         });
     };
 
-    if (enabled) {
-        return (
+    return (
+        enabled ? (
             <div style={{height: "100%", width: "100%"}} onClick={disableDraw ? null : handleDraw} onMouseMove={ setShowPreview ? handleOnMouseEvent : null}>
-                {boxes.length && displayBox()}
+                {boxes.length > 0 && displayBox()}
                 {/* Draw Children */}
                 <div className="container full">
                     {children}
                 </div>
                 {showPreview && displayPreview()}
             </div>
-        )
-    } else {
-        return (
+        ) : (
             <div className="container full">
                 {children}
             </div>
         )
-    }
+    )
 };
 
 export default DrawBoxes;
