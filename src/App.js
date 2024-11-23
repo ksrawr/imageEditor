@@ -1,14 +1,14 @@
 import "./index";
 import { useState, useEffect } from "react";
 import ImageViewer from "./ImageViewer";
-import CrosshairCursor from "./CrosshairCursor";
+import Cursor from "./Cursor";
 import DrawBoxes from "./DrawBoxes";
 
 export default function App() {
   const [image, setImage] = useState(null);
   const [confirmed, setConfirmed] = useState(false);
 
-  const [isCrossHairActive, setIsCrossHairActive] = useState(false);
+  const [isCursorActive, setIsCursorActive] = useState(false);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -34,14 +34,14 @@ export default function App() {
 
   useEffect(() => {
     if(image && confirmed) {
-      setIsCrossHairActive(true);
+      setIsCursorActive(true);
     }
   }, [image, confirmed]);
 
   return (
     <div className="container_fullscreen">
-      <CrosshairCursor isCrossHairActive={isCrossHairActive}>
-        <DrawBoxes enabled={isCrossHairActive}>
+      <Cursor isCursorActive={isCursorActive}>
+        <DrawBoxes enabled={isCursorActive}>
           <ImageViewer
             image={image}
             handleOnClick={handleConfirmImageUpload}
@@ -50,7 +50,7 @@ export default function App() {
             confirmed={confirmed}
           />
         </DrawBoxes>
-      </CrosshairCursor>
+      </Cursor>
     </div>
   );
 }

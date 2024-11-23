@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CrosshairCursor from "./CrosshairCursor";
+import BoxCursor from "./BoxCursor";
 
-const Cursor = ({ children, type, isCursorActive }) => {
+const Cursor = ({ children, type="crosshair", isCursorActive }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
@@ -12,12 +14,16 @@ const Cursor = ({ children, type, isCursorActive }) => {
   };
 
   const displayCursor = () => {
+    const { x, y } = cursorPosition || {};
     switch(type) {
         case "crosshair":
-            return;
-            break;
+            return (
+                <CrosshairCursor x={x} y={y}/>
+            );
         case "box":
-            break;
+            return (
+                <BoxCursor x={x} y={y}/>
+            );
     }
   };
 
@@ -34,11 +40,9 @@ const Cursor = ({ children, type, isCursorActive }) => {
       <div className="container full" style={{ position: "relative" }}>
         {children}
       </div>
+      {/* Display Custom Cursor */}
       {isCursorActive && (
-        <>
-          {{/* Display Custom Cursor */}}
-          {displayCursor()}
-        </>
+        displayCursor()
       )}
     </div>
   );
