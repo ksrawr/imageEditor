@@ -2,7 +2,7 @@ import { useState } from "react";
 import CrosshairCursor from "./CrosshairCursor";
 import BoxCursor from "./BoxCursor";
 
-const Cursor = ({ children, type="box", isCursorActive }) => {
+const Cursor = ({ children, type="box", isCursorActive, repositionBoxInfo }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
@@ -22,7 +22,7 @@ const Cursor = ({ children, type="box", isCursorActive }) => {
             );
         case "box":
             return (
-                <BoxCursor x={x} y={y}/>
+                <BoxCursor x={x} y={y} boxInfo={repositionBoxInfo}/>
             );
     }
   };

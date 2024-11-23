@@ -7,11 +7,17 @@ const initialState = {
     endY: null,
 }
 
-const DrawBoxes = ({children, enabled}) => {
+const DrawBoxes = ({ 
+    children, 
+    enabled, 
+    setCursorType, 
+    repositionBoxInfo, 
+    setRepositionBoxInfo
+}) => {
     /* 
     TODO:
     - exit drawing mode via escape key
-    - Move boxes
+    - FIX BUG (HOVERING OVER A BOX DOESNT DISABLE DRAW MODE!)
     - Resize boxes
     - Add Labels
     */
@@ -20,7 +26,7 @@ const DrawBoxes = ({children, enabled}) => {
     const [showPreview, setShowPreview] = useState(false);
     const [previewCoordinates, setPreviewCoordinates] = useState(initialState);
     const [disableDraw, setDisableDraw] = useState(false);
-    const [repositionBox, setRepositonBox] = useState(false);
+    const [enableReposition, setReposition] = useState(false);
 
     const handleDraw = (e) => {
         const { startX, startY } = coordinates || {};
@@ -50,6 +56,10 @@ const DrawBoxes = ({children, enabled}) => {
         }
     }, [coordinates]);
 
+    useEffect(() => {
+        console.log("i am disable draw", disableDraw);
+    }, [disableDraw]);
+
     const handleOnMouseEvent = (e) => {
         setPreviewCoordinates((prev) => ({...prev, endX: e.pageX, endY: e.pageY }));
     };
@@ -73,11 +83,35 @@ const DrawBoxes = ({children, enabled}) => {
         setDisableDraw(false);
     };
 
-    const handleRepositionBox = (e) => {
+    const handleInitialRepositionBox = (e) => {
         const index = parseInt(e.target.dataset.id);
+        setRepositionBoxInfo(boxes[index]);
         setBoxes((prev) => prev.filter((c, j) => j !== index));
         setDisableDraw(true);
-        setRepositonBox(true);
+        setCursorType("box");
+        setReposition(true);
+    };
+
+    const handleRepositionBox = (e) => {
+        const { startX, startY, endX, endY } = repositionBoxInfo || {};
+        const x = e.pageX;
+        const y = e.pageY;
+        const distanceX = endX - startX;
+        const distanceY = endY - startY;
+        const offsetStartX = x - (distanceX/2);
+        const offsetStartY = y - (distanceY/2);
+        const offsetEndX = x + (distanceX/2);
+        const offsetEndY = y + (distanceY/2);
+        const newBoxCoords = { 
+            startX: offsetStartX, 
+            startY: offsetStartY, 
+            endX: offsetEndX,
+            endY: offsetEndY,
+        };
+        setBoxes((prev) => [...prev, newBoxCoords]);
+        setDisableDraw(false);
+        setReposition(false);
+        setCursorType("crosshair");
     };
 
     const displayBox = () => {
@@ -100,7 +134,7 @@ const DrawBoxes = ({children, enabled}) => {
                     key={i} 
                     onMouseEnter={() => setDisableDraw(true)} 
                     onMouseLeave={() => setDisableDraw(false)}
-                    onClick={handleRepositionBox}
+                    onClick={handleInitialRepositionBox}
                     data-id={i}
                 >
                     <div>
@@ -116,9 +150,23 @@ const DrawBoxes = ({children, enabled}) => {
         });
     };
 
+    const handleClick = (e) => {
+        if(disableDraw && !enableReposition) {
+            return null;
+        } else if (disableDraw && enableReposition) {
+            return handleRepositionBox(e);
+        } else if (!disableDraw && !enableReposition) {
+            return handleDraw(e);
+        }
+    };
+
     return (
         enabled ? (
-            <div style={{height: "100%", width: "100%"}} onClick={disableDraw ? null : handleDraw} onMouseMove={ setShowPreview ? handleOnMouseEvent : null}>
+            <div 
+                style={{height: "100%", width: "100%"}} 
+                onClick={handleClick}
+                onMouseMove={ setShowPreview ? handleOnMouseEvent : null}
+            >
                 {boxes.length > 0 && displayBox()}
                 {/* Draw Children */}
                 <div className="container full">

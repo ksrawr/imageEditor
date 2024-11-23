@@ -4,11 +4,20 @@ import ImageViewer from "./ImageViewer";
 import Cursor from "./Cursor";
 import DrawBoxes from "./DrawBoxes";
 
+const initialState = {
+  startX: null,
+  startY: null,
+  endX: null,
+  endY: null,
+}
+
 export default function App() {
   const [image, setImage] = useState(null);
   const [confirmed, setConfirmed] = useState(false);
 
   const [isCursorActive, setIsCursorActive] = useState(false);
+  const [cursorType, setCursorType] = useState("crosshair");
+  const [repositionBoxInfo, setRepositionBoxInfo] = useState(initialState);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -28,10 +37,6 @@ export default function App() {
     }
   };
 
-  // const handleImageClick = (e) => {
-  //   console.log("heloooooo");
-  // };
-
   useEffect(() => {
     if(image && confirmed) {
       setIsCursorActive(true);
@@ -40,8 +45,18 @@ export default function App() {
 
   return (
     <div className="container_fullscreen">
-      <Cursor isCursorActive={isCursorActive}>
-        <DrawBoxes enabled={isCursorActive}>
+      <Cursor 
+        isCursorActive={isCursorActive}
+        type={cursorType}
+        repositionBoxInfo={repositionBoxInfo}
+      >
+        <DrawBoxes 
+          enabled={isCursorActive} 
+          setCursorType={setCursorType} 
+          cursorType={cursorType}
+          repositionBoxInfo={repositionBoxInfo}
+          setRepositionBoxInfo={setRepositionBoxInfo}
+        >
           <ImageViewer
             image={image}
             handleOnClick={handleConfirmImageUpload}
