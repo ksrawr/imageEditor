@@ -4,15 +4,22 @@ const BoxCursor = ({ x, y }) => {
     <div
         style={{
             position: "fixed",
-            top: y,
-            left: x,
+            top: `${y - (300/2)}px`,
+            left: `${x - (300/2)}px`,
             width: "300px",
             height: "300px",
-            backgroundColor: "red",
+            border: "1px solid red",
             pointerEvents: "none", // Allow clicks to pass through
             zIndex: 9,
+            display: "flex",
+            alignItems: "end",
+            justifyContent: "right",
         }}
-    />
+    >
+        <div>
+            <button>X</button>
+        </div>
+    </div>
     </>
   );
 };

@@ -6,7 +6,7 @@ const CrosshairCursor = ({ x, y}) => {
         style={{
           position: "fixed",
           top: 0,
-          left: x,
+          left: `${x}px`,
           width: "2px",
           height: "100%",
           backgroundColor: "red",
@@ -18,7 +18,7 @@ const CrosshairCursor = ({ x, y}) => {
       <div
         style={{
           position: "fixed",
-          top: y,
+          top: `${y}px`,
           left: 0,
           width: "100%",
           height: "2px",

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CrosshairCursor from "./CrosshairCursor";
 import BoxCursor from "./BoxCursor";
 
-const Cursor = ({ children, type="crosshair", isCursorActive }) => {
+const Cursor = ({ children, type="box", isCursorActive }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
@@ -27,6 +27,15 @@ const Cursor = ({ children, type="crosshair", isCursorActive }) => {
     }
   };
 
+  const styling = {
+    crosshair: {
+        cursor: isCursorActive ? "none" : "default",
+    },
+    box: {
+        cursor: "grab",
+    }
+};
+
   return (
     <div
       onMouseMove={isCursorActive ? handleMouseMove : null}
@@ -34,7 +43,7 @@ const Cursor = ({ children, type="crosshair", isCursorActive }) => {
         position: "relative",
         height: "100vh",
         width: "100vw",
-        cursor: isCursorActive ? "none" : "default",
+        cursor: styling[type]?.cursor,
       }}
     >
       <div className="container full" style={{ position: "relative" }}>
