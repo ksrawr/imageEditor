@@ -132,8 +132,8 @@ const DrawBoxes = ({
                 <div 
                     style={boxStyle} 
                     key={i} 
-                    onMouseEnter={() => setDisableDraw(true)} 
-                    onMouseLeave={() => setDisableDraw(false)}
+                    onMouseOver={() => setDisableDraw(true)} 
+                    onMouseOut={() => setDisableDraw(false)}
                     onClick={handleInitialRepositionBox}
                     data-id={i}
                 >
