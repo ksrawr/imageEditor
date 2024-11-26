@@ -17,7 +17,6 @@ const DrawBoxes = ({
     /* 
     TODO:
     - exit drawing mode via escape key
-    - FIX BUG (HOVERING OVER A BOX DOESNT DISABLE DRAW MODE!)
     - Resize boxes
     - Add Labels
     */
