@@ -24,6 +24,9 @@ const BoxCursor = ({ x, y, boxInfo }) => {
         }}
     >
         <div>
+        <button>+</button>
+        </div>
+        <div>
             <button>X</button>
         </div>
     </div>

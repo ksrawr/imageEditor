@@ -16,8 +16,6 @@ const DrawBoxes = ({
 }) => {
     /* 
     TODO:
-    - exit drawing mode via escape key
-    - Resize boxes
     - Add Labels
     */
     const [coordinates, setCoordinates] = useState(null);
@@ -77,12 +75,14 @@ const DrawBoxes = ({
     };
 
     const deleteBox = (e) => {
+        console.log("delete box")
         const index = parseInt(e.target.dataset.id);
         setBoxes((prev) => prev.filter((c, j) => j !== index));
         setDisableDraw(false);
     };
 
     const handleInitialRepositionBox = (e) => {
+        console.log("init reposition")
         const index = parseInt(e.target.dataset.id);
         setRepositionBoxInfo(boxes[index]);
         setBoxes((prev) => prev.filter((c, j) => j !== index));
@@ -125,17 +125,21 @@ const DrawBoxes = ({
                 top: `${startY}px`,
                 display: "flex",
                 alignItems: "end",
-                justifyContent: "right",
+                justifyContent: "end",
             };
             return (
                 <div 
                     style={boxStyle} 
                     key={i} 
-                    onMouseOver={() => setDisableDraw(true)} 
-                    onMouseOut={() => setDisableDraw(false)}
-                    onClick={handleInitialRepositionBox}
-                    data-id={i}
-                >
+                >   
+                    <div>
+                        <button
+                            onMouseEnter={() => setDisableDraw(true)} 
+                            onMouseLeave={() => setDisableDraw(false)}
+                            onClick={handleInitialRepositionBox}
+                            data-id={i}
+                        >+</button>
+                    </div>
                     <div>
                         <button 
                             onClick={deleteBox} 
