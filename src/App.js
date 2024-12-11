@@ -15,7 +15,7 @@ const initialState = {
 export default function App() {
 /* 
   TODO:
-  - Make Editor component collapsible/overlay UI
+  - Capture the dimensions of each box and display them in a seperate side panel. This needs to show where in the photo this box is capturing!
 */
 
   const [image, setImage] = useState(null);
