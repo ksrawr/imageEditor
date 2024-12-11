@@ -12,7 +12,8 @@ const DrawBoxes = ({
     enabled, 
     setCursorType, 
     repositionBoxInfo, 
-    setRepositionBoxInfo
+    setRepositionBoxInfo,
+    tag
 }) => {
     /* 
     TODO:
@@ -132,6 +133,9 @@ const DrawBoxes = ({
                     style={boxStyle} 
                     key={i} 
                 >   
+                    <div>
+                        {tag}
+                    </div>
                     <div>
                         <button
                             onMouseEnter={() => setDisableDraw(true)} 

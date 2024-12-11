@@ -24,6 +24,7 @@ export default function App() {
   const [isCursorActive, setIsCursorActive] = useState(false);
   const [cursorType, setCursorType] = useState("crosshair");
   const [repositionBoxInfo, setRepositionBoxInfo] = useState(initialState);
+  const [tagValue, setTagValue] = useState("");
   const [tag, setTag] = useState("");
   const [disable, setDisable] = useState(false);
   const [showEditor, setShowEditor] = useState(true);
@@ -56,9 +57,13 @@ export default function App() {
     <div className="container_fullscreen">
       <Editor 
         disable={disable} 
-        tag={tag} 
+        tag={tag}
+        setTag={setTag}
+        tagValue={tagValue}
+        setTagValue={setTagValue}
         showEditor={showEditor}
         setShowEditor={setShowEditor}
+        setIsCursorActive={setIsCursorActive}
       />
       <Cursor 
         isCursorActive={isCursorActive}
@@ -71,6 +76,7 @@ export default function App() {
           cursorType={cursorType}
           repositionBoxInfo={repositionBoxInfo}
           setRepositionBoxInfo={setRepositionBoxInfo}
+          tag={tag}
         >
           <ImageViewer
             image={image}

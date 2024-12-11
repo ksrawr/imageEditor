@@ -14,6 +14,7 @@ const Cursor = ({ children, type="box", isCursorActive, repositionBoxInfo }) => 
   };
 
   const displayCursor = () => {
+    if(!isCursorActive) return;
     const { x, y } = cursorPosition || {};
     switch(type) {
         case "crosshair":

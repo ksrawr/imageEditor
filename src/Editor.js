@@ -2,13 +2,15 @@ import { useState } from "react";
 
 const Editor = ({
   tag,
-  handleOnChange,
+  setTag,
+  tagValue,
+  setTagValue,
   disable,
-  handleOnClick,
   image,
   confirmed,
   showEditor,
   setShowEditor,
+  setIsCursorActive,
 }) => {
 
   return showEditor ? (
@@ -19,12 +21,12 @@ const Editor = ({
       <div className="container center">
         <input
           placeholder="Create a tag"
-          value={tag}
+          value={tagValue}
           disabled={disable}
-          onChange={handleOnChange}
+          onChange={(e) => setTagValue(e.target.value)}
         />
         <button
-          onClick={handleOnClick}
+          onClick={() => setTag(tagValue)}
           disabled={image && confirmed ? false : disable}
         >
           {disable ? "Unlock" : "Lock"}
