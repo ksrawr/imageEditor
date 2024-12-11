@@ -7,10 +7,16 @@ const Editor = ({
   handleOnClick,
   image,
   confirmed,
+  showEditor,
+  setShowEditor,
 }) => {
-  return (
-    <div className="container side">
-      <div>
+
+  return showEditor ? (
+    <div className="container side overlay">
+      <div className="top">
+        <button onClick={() => setShowEditor(false)}>X</button>
+      </div>
+      <div className="container center">
         <input
           placeholder="Create a tag"
           value={tag}
@@ -25,7 +31,13 @@ const Editor = ({
         </button>
       </div>
     </div>
-  );
+  ) : (
+    <div className="container side overlay minimize">
+      <div>
+        <button onClick={() => setShowEditor(true)}>&gt;&gt;</button>
+      </div>
+    </div>
+  )
 };
 
 export default Editor;
