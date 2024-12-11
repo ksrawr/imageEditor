@@ -125,18 +125,44 @@ const DrawBoxes = ({
                 left: `${startX}px`,
                 top: `${startY}px`,
                 display: "flex",
-                alignItems: "end",
-                justifyContent: "end",
+                flexDirection: "columns",
+                alignItems: "center",
+                justifyContent: "center",
             };
+
+            const boxCenterContainerStyle = {
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+            };
+
+            const boxNavContainerStyle = {
+                height: "10%",
+                width: "100%",
+                display: "flex",
+                alignSelf: "end",
+            };
+
+            const tagStyle = {
+                width: "80%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+            };
+
+            const navStyle = {
+                width: "20%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "end",
+            }
             return (
                 <div 
                     style={boxStyle} 
                     key={i} 
                 >   
-                    <div>
-                        {tag}
-                    </div>
-                    <div>
+                    <div style={boxNavContainerStyle}></div>
+                    <div style={boxCenterContainerStyle}>
                         <button
                             onMouseEnter={() => setDisableDraw(true)} 
                             onMouseLeave={() => setDisableDraw(false)}
@@ -144,13 +170,18 @@ const DrawBoxes = ({
                             data-id={i}
                         >+</button>
                     </div>
-                    <div>
-                        <button 
-                            onClick={deleteBox} 
-                            onMouseEnter={() => setDisableDraw(true)} 
-                            onMouseLeave={() => setDisableDraw(false)}
-                            data-id={i}
-                        >X</button>
+                    <div style={boxNavContainerStyle}>
+                        <div style={tagStyle}>
+                            {tag}
+                        </div>
+                        <div style={navStyle}>
+                            <button 
+                                onClick={deleteBox} 
+                                onMouseEnter={() => setDisableDraw(true)} 
+                                onMouseLeave={() => setDisableDraw(false)}
+                                data-id={i}
+                            >X</button>
+                        </div>
                     </div>
                 </div>
             )
